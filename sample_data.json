@@ -1,0 +1,21 @@
+{
+    "owner": "example",
+    "title": "example",
+    "route": "example",
+    "theme": "barebone",
+    "items": [
+        {
+            "name": "example",
+            "description": "example",
+            "price": 1.99,
+            "imageId": "example"
+        }
+    ],
+    "separators": [
+        {
+            "categoryName": "example",
+            "sub": false,
+            "position": 0
+        }
+    ]
+}
