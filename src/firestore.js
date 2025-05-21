@@ -278,11 +278,10 @@ async function matchMenuRoute(menuRoute) {
 
     const snapshot = await db.where("route", "==", menuRoute).get();
 
-    if (snapshot.empty)
-        throw new RequestError(
-            404,
-            `Não foi possível encontrar o menu que corresponde ao nome da rota especificada`
-        );
+    if (snapshot.empty) {
+        // A resposta 404 aqui não joga erro.
+        return new RequestResponse(404, "Rota não encontrada.");
+    }
 
     return new RequestResponse(200, {
         id: snapshot.docs[0].id,
@@ -291,7 +290,7 @@ async function matchMenuRoute(menuRoute) {
 }
 
 async function menuRouteExists(menuRoute) {
-    if (!menuRoute) throw new RequestError(400, "menuRoute nulo");
+    if (!menuRoute) return false;
 
     const snapshot = await db.where("route", "==", menuRoute).get();
 

@@ -4,7 +4,7 @@ import config from "../config.json" with { type:"json" };
 import express from "express";
 import cors from "cors";
 
-const { MAX_WRITE_SIZE, MAX_URL_LENGTH, MAX_IMAGE_SIZE } = config;
+const { MAX_WRITE_SIZE, MAX_URL_LENGTH, MAX_IMAGE_SIZE, HTTP_PORT } = config;
 const allowedOrigins = config.CORS_ORIGIN;
 
 const app = express();
@@ -82,7 +82,7 @@ app.get("/menu/:menuId", apiReadLimit, async (req, res) => {
 // Encontra o cardápio que corresponde a rota
 app.get("/match-route/:routeName", apiReadLimit, async (req, res) => {
     try {
-        const rr = await matchMenuRoute(req.params["routeName"]);
+        const rr = await matchMenuRoute(decodeURIComponent(req.params["routeName"]));
         res.status(rr.code).json(rr.data);
 
     } catch (error) {
@@ -173,4 +173,4 @@ itemImageRouter.delete("/item-image/:menuId/:imageId", protectedService, apiWrit
 app.use("/", menuRouter);
 app.use("/", itemImageRouter);
 
-app.listen(5001, () => console.log("Servidor rodando na porta 5001!"));
+app.listen(HTTP_PORT, () => console.log(`A API está rodando na porta ${HTTP_PORT}`));
